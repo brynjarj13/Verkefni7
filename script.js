@@ -23,7 +23,11 @@
   * Ef notandi ýtir á "cancel" þá er sótt niðurstöður með getResults() og þær birtar með alert().
   */
 function start() {
+  alert('Þetta er leikur til að finna tölu milli 1 og 100 með ágiskunum. Ýttu á ok til að byrja!')
+  do{
   play();
+  }while(confirm('Viltu spila annann leik?'))
+  alert(getResults())
 }
 
 /**
@@ -41,7 +45,16 @@ function start() {
  * Þarf aðútfæra með lykkju og flæðisstýringum
  */
 function play() {
-  const random = randomNumber(1,100;
+  const random = randomNumber(1,100);
+  let tries = 0;
+  do{
+  tries++;
+  let x = prompt('Hver er ágiskun þín?');
+  let response = getResponse(x, random);
+  alert(response);
+  if(response === 'Rétt')break;
+  }while(true)
+  games[0+games.length] = tries;
 }
 
 /**
@@ -54,7 +67,14 @@ function play() {
  *    "Þú spilaðir engann leik >_<"
  */
 function getResults(){
-
+  const x = calculateAverage();
+  const y = games.length;
+  if(y === 0){
+    alert('Þú spilaðir engann leik!')
+  }
+  if(y > 0){
+  alert('Þú spilaðir '+y+' leiki! Meðalfjöldi ágiskana var '+x)
+  }
 }
 
 /**
@@ -66,7 +86,13 @@ function getResults(){
  * þarf að útfæra með lykkju.
  */
 function calculateAverage(){
-
+  var sum = 0;
+  for(var i = 0; i < games.length; i++){
+    sum = sum + games [i];
+  }
+  sum = sum / games.length;
+  sum.toFixed(2)
+  return sum;
 }
 
 /**
@@ -92,8 +118,15 @@ function parseGuess(input){
  * Þarf að útfæra með flæðistýringu.
  * Math.abs skilar algildi tölu: |a| = Math.abs(a)
  */
-function getResponse(guess, correct){
-  return 'Ekki rétt';
+function getResponse(guess, random){
+  let num = parseInt(guess,10);
+  if(num < 0 || 100 < num || num === null )return 'Ekki rétt';
+  if(num === random)return 'Rétt';
+  if(Math.abs(random - num) < 5)return 'Mjög nálægt';
+  if(Math.abs(random - num) < 10)return 'Nálægt';
+  if(Math.abs(random - num) < 20)return 'Frekar langt frá';
+  if(Math.abs(random - num) < 50)return 'Langt frá';
+  else return 'Mjög langt frá';
 }
 
 /**
